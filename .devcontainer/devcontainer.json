@@ -1,0 +1,16 @@
+{
+	"name": "K3s",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {}
+	},
+	"settings": {
+		"terminal.integrated.shell.linux": "/usr/bin/zsh"
+	},
+	"extensions": [
+		"esbenp.prettier-vscode",
+		"eamodio.gitlens",
+		"redhat.vscode-yaml",
+		"ms-azuretools.vscode-docker"
+	]
+}
