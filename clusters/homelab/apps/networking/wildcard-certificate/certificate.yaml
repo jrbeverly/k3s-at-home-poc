@@ -1,0 +1,15 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: in-jrbeverly-dev
+  namespace: networking
+spec:
+  secretName: "in-jrbeverly-dev-tls"
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: "in.jrbeverly.dev"
+  dnsNames:
+  - "in.jrbeverly.dev"
+  - "*.in.jrbeverly.dev"

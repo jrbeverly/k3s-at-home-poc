@@ -1,0 +1,101 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: homer
+  namespace: home
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: homer
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: b4bz/homer
+      tag: 21.03.2
+      pullPolicy: IfNotPresent
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+      hosts:
+      - host: "dash.in.jrbeverly.dev"
+        paths:
+        - path: /
+          pathType: Prefix
+      tls:
+      - hosts:
+        - "dash.in.jrbeverly.dev"
+    configmap:
+      enabled: true
+      config: |
+        ---
+        title: "HomeLab"
+        subtitle: "jrbeverly"
+        icon: "fas fa-photo-video"
+
+        header: true
+        footer: '<p>Created with <span class="has-text-danger">❤️</span> with <a href="https://bulma.io/">bulma</a>, <a href="https://vuejs.org/">vuejs</a> & <a href="https://fontawesome.com/">font awesome</a> // Fork me on <a href="https://github.com/bastienwirtz/homer"><i class="fab fa-github-alt"></i></a></p>'
+
+        columns: "3"
+        connectivityCheck: true
+
+        theme: default
+
+        services:
+          - name: "Media"
+            icon: "fas fa-play-circle"
+            items:
+              - name: "Watch"
+                icon: "fas fa-play"
+                subtitle: "Watch media available on the system"
+                tag: "watch,emby"
+                url: "https://watch.home.jrbeverly.me"
+              - name: "Television Management"
+                icon: "fas fa-tv"
+                subtitle: "Manage television series located on the system"
+                tag: "tv,manager"
+                url: "https://tv.home.jrbeverly.me"
+                target: "_blank"
+              - name: "Movies Management"
+                icon: "fas fa-video"
+                subtitle: "Manage movies located on the system"
+                tag: "movies,manager"
+                url: "https://movies.home.jrbeverly.me"
+                target: "_blank"
+          - name: "Administration"
+            icon: "fas fa-info-circle"
+            items:
+              - name: "Indexer"
+                icon: "fas fa-indent"
+                subtitle: "Index for system-wide sources"
+                tag: "data"
+                url: "https://index.home.jrbeverly.me"
+                target: "_blank"
+              - name: "Download & Upload"
+                icon: "fas fa-cloud-download-alt"
+                subtitle: "Synchronizing files between servers"
+                tag: "data"
+                url: "https://download.home.jrbeverly.me"
+                target: "_blank"
+          - name: "Utility"
+            icon: "fas fa-question-circle"
+            items:
+              - name: "Dashboard"
+                icon: "fas fa-columns"
+                subtitle: "Dashboard for services on the machine."
+                tag: "utility"
+                url: #
+                target: "_blank"
+              - name: "Watchtower"
+                icon: "fas fa-sync-alt"
+                subtitle: "Automated Docker container base image updates"
+                tag: "utility"
+                url: #
+                target: "_blank"
